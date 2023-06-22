@@ -38,8 +38,6 @@
 export default {
   name: 'LoginPage',
 
-  layout: 'default',
-
   data() {
     return {
       form: {
@@ -52,7 +50,7 @@ export default {
   methods: {
     submitForm() {
       this.$router.push('/home')
-    }
+    },
   },
 }
 </script>
