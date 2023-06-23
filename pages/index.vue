@@ -56,7 +56,7 @@ export default {
 </script>
 <style scopped>
 .form-card {
-  width: 400px;
+  width: 350px;
   margin: 40vh;
 }
 .button {
@@ -68,6 +68,9 @@ export default {
 
 .button:hover {
   background: rgba(149, 117, 205, 0.56);
-  filter: contrast(125%);
+  filter: contrast(135%);
 }
+
+
+
 </style>

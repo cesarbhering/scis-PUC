@@ -16,6 +16,7 @@ export default {}
 body {
   margin: 0;
   overflow: hidden;
+  font-family: sans-serif;
 }
 
 .main-box {
@@ -23,6 +24,5 @@ body {
   margin: 0;
   height: 100vh;
   overflow: auto;
-  background-color: aquamarine;
 }
 </style>
