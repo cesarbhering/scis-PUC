@@ -1,31 +1,75 @@
 <template>
   <div>
-    <el-card>
-      <div class="date-picker">
-        <span>Período</span>
-        <el-date-picker
-          v-model="value1"
-          type="datetimerange"
-          range-separator="Até"
-          start-placeholder="Data Inicial"
-          end-placeholder="Data Final"
-        >
-        </el-date-picker>
-      </div>
-      <div>
-        <el-input v-model="equipamento" label="Equipamento/TAG"></el-input>
-        <el-select label="Gênero" v-model="generoPicked" placeholder="">
-          <el-option v-for="genero in generos" :key="genero"></el-option>
-        </el-select>
-        <el-select label="Modalidade" v-model="modalidadePicked" placeholder="">
-          <el-option
-            v-for="modalidade in modalidades"
-            :key="modalidade"
-          ></el-option>
-        </el-select>
-        <el-select label="Situação" v-model="situacaoPicked" placeholder="">
-          <el-option v-for="situacao in situacoes" :key="situacao"></el-option>
-        </el-select>
+    <el-card class="filters-card">
+      <div class="filters-box">
+        <div display="flex">
+          <div>
+            <span class="filter-label">Período</span>
+          </div>
+          <div>
+            <el-date-picker
+              v-model="value1"
+              type="datetimerange"
+              range-separator="Até"
+              start-placeholder="Data Inicial"
+              end-placeholder="Data Final"
+            >
+            </el-date-picker>
+          </div>
+        </div>
+        <div display="flex">
+          <span class="filter-label">Equipamento/TAG</span>
+          <el-input v-model="equipamento" label="Equipamento/TAG"></el-input>
+        </div>
+        <div display="flex">
+          <div>
+            <span class="filter-label">Gênero</span>
+          </div>
+          <div>
+            <el-select label="Gênero" v-model="generoPicked" placeholder="">
+              <el-option
+                v-for="genero in generos"
+                :key="genero.value"
+                :label="genero.label"
+                :value="genero.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div display="flex">
+          <div>
+            <span class="filter-label"> Modalidade </span>
+          </div>
+          <div>
+            <el-select
+              label="Modalidade"
+              v-model="modalidadePicked"
+              placeholder=""
+            >
+              <el-option
+                v-for="modalidade in modalidades"
+                :key="modalidade"
+                :label="modalidade.label"
+                :value="modalidade.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div display="flex">
+          <div>
+            <span class="filter-label"> Situação </span>
+          </div>
+          <div>
+            <el-select label="Situação" v-model="situacaoPicked" placeholder="">
+              <el-option
+                v-for="situacao in situacoes"
+                :key="situacao"
+                :label="situacao.label"
+                :value="situacao.value"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
       </div>
     </el-card>
     <el-card></el-card>
@@ -43,11 +87,74 @@ export default {
   data() {
     return {
       equipamento: '',
-      generos: ['Genero1', 'Genero2'],
+      generos: [
+        {
+          value: 'Option1',
+          label: 'Option1',
+        },
+        {
+          value: 'Option2',
+          label: 'Option2',
+        },
+        {
+          value: 'Option3',
+          label: 'Option3',
+        },
+        {
+          value: 'Option4',
+          label: 'Option4',
+        },
+        {
+          value: 'Option5',
+          label: 'Option5',
+        },
+      ],
       generoPicked: '',
-      modalidades: ['Modalidade1', 'MOdalidade2'],
+      modalidades: [
+        {
+          value: 'Option1',
+          label: 'Option1',
+        },
+        {
+          value: 'Option2',
+          label: 'Option2',
+        },
+        {
+          value: 'Option3',
+          label: 'Option3',
+        },
+        {
+          value: 'Option4',
+          label: 'Option4',
+        },
+        {
+          value: 'Option5',
+          label: 'Option5',
+        },
+      ],
       modalidadePicked: '',
-      situacoes: ['Situação1', 'Situação2'],
+      situacoes: [
+        {
+          value: 'Option1',
+          label: 'Option1',
+        },
+        {
+          value: 'Option2',
+          label: 'Option2',
+        },
+        {
+          value: 'Option3',
+          label: 'Option3',
+        },
+        {
+          value: 'Option4',
+          label: 'Option4',
+        },
+        {
+          value: 'Option5',
+          label: 'Option5',
+        },
+      ],
       situacaoPicked: '',
     }
   },
@@ -55,17 +162,26 @@ export default {
 </script>
 
 <style>
-.date-picker {
+.filters-card {
+  margin: 5px;
+}
+
+.filter-label {
+  font-style: normal;
+  font-weight: 600;
+  color: #666666;
+}
+
+.filters-box {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 20px 0;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .buttons-box {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin: 20px;
 }
 .button {
   background: #65537c;

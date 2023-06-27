@@ -6,6 +6,7 @@
       mode="horizontal"
       background-color="#65537c"
       text-color="#FFFFFF"
+      active-text-color="#FFFFFF"
       @select="handleSelect"
     >
       <el-submenu index="1">
