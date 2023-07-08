@@ -1,11 +1,11 @@
 <template>
-  <el-cointaner>
+  <div>
     <top-bar />
     <el-main class="main-box">
       <Nuxt />
     </el-main>
     <footer-area />
-  </el-cointaner>
+  </div>
 </template>
 
 <script>

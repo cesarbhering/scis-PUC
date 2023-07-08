@@ -48,7 +48,7 @@
             >
               <el-option
                 v-for="modalidade in modalidades"
-                :key="modalidade"
+                :key="modalidade.value"
                 :label="modalidade.label"
                 :value="modalidade.value"
               ></el-option>
@@ -63,7 +63,7 @@
             <el-select label="Situação" v-model="situacaoPicked" placeholder="">
               <el-option
                 v-for="situacao in situacoes"
-                :key="situacao"
+                :key="situacao.value"
                 :label="situacao.label"
                 :value="situacao.value"
               ></el-option>
@@ -72,20 +72,33 @@
         </div>
       </div>
     </el-card>
-    <el-card></el-card>
+    <el-card class="filters-card">
+      <ProgramacaoTable />
+    </el-card>
     <div class="buttons-box">
       <el-button type="primary" class="button">Criar Novo</el-button>
       <el-button type="primary" class="button">Editar Registro</el-button>
     </div>
+    <ProgramacaoModal v-show="showModal" />
   </div>
 </template>
 
 <script>
+import ProgramacaoTable from '~/components/ProgramacaoTable.vue'
+import ProgramacaoModal from '~/components/ProgramacaoModal.vue'
+
 export default {
+  components: {
+    ProgramacaoTable,
+    ProgramacaoModal,
+  },
+
   layout: 'main',
 
   data() {
     return {
+      showModal: false,
+      value1: '',
       equipamento: '',
       generos: [
         {

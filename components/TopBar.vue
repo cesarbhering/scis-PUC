@@ -2,12 +2,10 @@
   <el-header class="header-box">
     <h4>Controle das Inspeções de Segurança</h4>
     <el-menu
-      :default-active="activeIndex"
       mode="horizontal"
       background-color="#65537c"
       text-color="#FFFFFF"
       active-text-color="#FFFFFF"
-      @select="handleSelect"
     >
       <el-submenu index="1">
         <template slot="title">Sistema</template>
