@@ -76,7 +76,7 @@
       <ProgramacaoTable />
     </el-card>
     <div class="buttons-box">
-      <el-button type="primary" class="button">Criar Novo</el-button>
+      <el-button type="primary" @click="testeMongodb" class="button">Criar Novo</el-button>
       <el-button type="primary" class="button">Editar Registro</el-button>
     </div>
     <ProgramacaoModal v-show="showModal" />
@@ -170,7 +170,7 @@ export default {
       ],
       situacaoPicked: '',
     }
-  },
+  }
 }
 </script>
 
