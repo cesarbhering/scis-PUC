@@ -76,28 +76,26 @@
       <ProgramacaoTable />
     </el-card>
     <div class="buttons-box">
-      <el-button type="primary" @click="testeMongodb" class="button">Criar Novo</el-button>
+      <el-button type="primary" class="button"
+        >Criar Novo</el-button
+      >
       <el-button type="primary" class="button">Editar Registro</el-button>
     </div>
-    <ProgramacaoModal v-show="showModal" />
   </div>
 </template>
 
 <script>
 import ProgramacaoTable from '~/components/ProgramacaoTable.vue'
-import ProgramacaoModal from '~/components/ProgramacaoModal.vue'
 
 export default {
   components: {
     ProgramacaoTable,
-    ProgramacaoModal,
   },
 
   layout: 'main',
 
   data() {
     return {
-      showModal: false,
       value1: '',
       equipamento: '',
       generos: [
@@ -170,7 +168,7 @@ export default {
       ],
       situacaoPicked: '',
     }
-  }
+  },
 }
 </script>
 
@@ -189,25 +187,5 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-}
-
-.buttons-box {
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px;
-}
-.button {
-  background: #65537c;
-  border-radius: 16px;
-  border: 0;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-  text-align: center;
-}
-
-.button:hover {
-  background: rgb(116, 90, 160);
-  filter: contrast(135%);
 }
 </style>

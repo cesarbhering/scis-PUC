@@ -1,44 +1,58 @@
 <template>
-  <div>
-    <el-dialog
-      append-to-body
-      title="Programação de Inspeção"
-      :visible.sync="dialogVisible"
-      width="50%"
-      :before-close="handleClose"
-    >
-      <el-form :model="form" label-width="120px">
-        <el-form-item label="Código">
-          <el-input v-model="form.code"></el-input>
-        </el-form-item>
-        <el-form-item label="Tipo">
-          <el-input v-model="form.type"></el-input>
-        </el-form-item>
-        <el-form-item label="Equipamento">
-          <el-input v-model="form.equipament"></el-input>
-        </el-form-item>
-        <el-form-item label="Categoria">
-          <el-input v-model="form.category"></el-input>
-        </el-form-item>
-        <el-form-item label="Programação">
-          <el-input v-model="form.schedule"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancelar</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >Salvar</el-button
-        >
-      </span>
-    </el-dialog>
-  </div>
+  <el-dialog
+    id="programacao-modal"
+    class="programacao-modal"
+    append-to-body
+    title="Programação de Inspeção"
+    width="50%"
+    :before-close="handleClose"
+    visible
+    @open="openModal"
+  >
+    <el-form :model="form" label-width="120px">
+      <el-form-item label="Código">
+        <el-input v-model="form.code"></el-input>
+      </el-form-item>
+      <el-form-item label="Tipo">
+        <el-input v-model="form.type"></el-input>
+      </el-form-item>
+      <el-form-item label="Equipamento">
+        <el-input v-model="form.equipament"></el-input>
+      </el-form-item>
+      <el-form-item label="Categoria">
+        <el-input v-model="form.category"></el-input>
+      </el-form-item>
+      <el-form-item label="Programação">
+        <el-input v-model="form.schedule"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="buttons-box">
+      <el-button class="button" type="primary" @click="handleClose"
+        >Cancelar</el-button
+      >
+      <el-button class="button" type="primary" @click="updateProgramacao"
+        >Salvar</el-button
+      >
+    </div>
+  </el-dialog>
 </template>
 
 <script>
 export default {
+  props: {
+    visible: {
+      type: Boolean,
+      default: false,
+    },
+    selectedRow: {
+      type: Object,
+      default: () => {},
+      required: false,
+    },
+  },
+
   data() {
     return {
-      dialogVisible: false,
       form: {
         code: '',
         type: '',
@@ -48,15 +62,35 @@ export default {
       },
     }
   },
+
+  mounted() {
+    this.openModal()
+  },
+
   methods: {
-    handleClose(done) {
+    openModal() {
+      this.form = structuredClone(this.selectedRow)
+    },
+
+    handleClose() {
       this.$confirm('Tem certeza que deseja cancelar?').then((_) => {
-        done()
+        this.$emit('close')
       })
+    },
+
+    async updateProgramacao() {
+      const newProgramacao = structuredClone(this.form)
+      await fetch('/.netlify/functions/patch_programacao', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProgramacao),
+      }).then((response) => (this.tableData = response))
     },
   },
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

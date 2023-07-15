@@ -25,4 +25,24 @@ body {
   height: 100vh;
   overflow: auto;
 }
+
+.buttons-box {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+.button {
+  background: #65537c;
+  border-radius: 16px;
+  border: 0;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.button:hover {
+  background: rgb(116, 90, 160);
+  filter: contrast(135%);
+}
 </style>

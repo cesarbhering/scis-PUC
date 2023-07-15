@@ -4,9 +4,9 @@
       ref="multipleTable"
       :data="tableData"
       style="width: 100%"
+      empty-text="Aguarde..."
       @selection-change="handleSelectionChange"
       @cell-click="openModal"
-      empty-text="Aguarde..."
     >
       <el-table-column label="Código" width="120">
         <template slot-scope="scope">{{ scope.row.code }}</template>
@@ -32,49 +32,52 @@
       >
       </el-table-column>
     </el-table>
-    <div style="margin-top: 20px">
-      <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-        >Toggle selection status of second and third rows</el-button
-      >
-      <el-button @click="toggleSelection()">Clear selection</el-button>
-    </div>
+    <ProgramacaoModal
+      v-if="showModal"
+      :selected-row="selectedRow"
+      @close="closeModal"
+    />
   </div>
 </template>
 
 <script>
+import ProgramacaoModal from '~/components/ProgramacaoModal.vue'
+
 export default {
+  components: {
+    ProgramacaoModal,
+  },
+
   data() {
     return {
       tableData: [],
+      selectedRow: {},
       multipleSelection: [],
+      showModal: false,
     }
   },
 
   async beforeCreate() {
     await fetch('/.netlify/functions/get_programacoes')
-        .then((response) => response.json())
-        .then((res) => {
-          this.tableData = res
-        })
+      .then((response) => response.json())
+      .then((res) => {
+        this.tableData = res
+      })
   },
 
   methods: {
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
-    },
-
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
 
     openModal(row, column, cell, event) {
-      console.log(row, column, cell, event)
+      this.selectedRow = structuredClone(row)
+      this.showModal = true
+    },
+
+    closeModal() {
+      this.showModal = false
+      this.selectedRow = {}
     },
   },
 }
