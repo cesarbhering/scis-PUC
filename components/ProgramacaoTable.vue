@@ -5,7 +5,6 @@
       :data="tableData"
       style="width: 100%"
       empty-text="Aguarde..."
-      @selection-change="handleSelectionChange"
       @cell-click="openModal"
     >
       <el-table-column label="Código" width="120">
@@ -30,6 +29,10 @@
         label="Data Prevista"
         show-overflow-tooltip
       >
+      </el-table-column>
+      <el-table-column label="Operações">
+        <el-button size="mini" type="danger">Excluir</el-button>
+        <el-button size="mini">Editar</el-button>
       </el-table-column>
     </el-table>
     <ProgramacaoModal
@@ -66,11 +69,44 @@ export default {
   },
 
   methods: {
-    handleSelectionChange(val) {
-      this.multipleSelection = val
+    async fetchData() {
+      await fetch('/.netlify/functions/get_programacoes')
+        .then((response) => response.json())
+        .then((res) => {
+          this.tableData = res
+        })
     },
 
-    openModal(row, column, cell, event) {
+    handleDelete(info) {
+      this.$confirm('Tem certeza que deseja excluir?', 'Atenção', {
+        confirmButtonText: 'Sim',
+        cancelButtonText: 'Não',
+        type: 'warning',
+      })
+        .then(async () => {
+          await fetch('/.netlify/functions/delete_programacao', {
+            method: 'DELETE',
+            body: JSON.stringify(info),
+          }).then(async () => await this.fetchData())
+          await this.fetchData()
+          this.$message({
+            type: 'success',
+            message: 'Excluído com sucesso!',
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Exclusão cancelada!',
+          })
+        })
+    },
+
+    openModal(row, _column, _cell, event) {
+      if (event.target.innerText.toLowerCase() === 'excluir') {
+        // Perform your custom action here
+        return this.handleDelete(row)
+      }
       this.selectedRow = structuredClone(row)
       this.showModal = true
     },

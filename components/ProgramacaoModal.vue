@@ -1,17 +1,21 @@
 <template>
   <el-dialog
     id="programacao-modal"
+    ref="dialog"
     class="programacao-modal"
     append-to-body
     title="Programação de Inspeção"
     width="50%"
     :before-close="handleClose"
     visible
+    :close-on-click-modal="false"
+    close-on-press-escape
     @open="openModal"
+    v-loading="loading"
   >
     <el-form :model="form" label-width="120px">
-      <el-form-item label="Código">
-        <el-input v-model="form.code"></el-input>
+      <el-form-item v-if="!newProgramacao" label="Código">
+        <el-input v-model="form.code" disabled></el-input>
       </el-form-item>
       <el-form-item label="Tipo">
         <el-input v-model="form.type"></el-input>
@@ -30,7 +34,10 @@
       <el-button class="button" type="primary" @click="handleClose"
         >Cancelar</el-button
       >
-      <el-button class="button" type="primary" @click="updateProgramacao"
+      <el-button
+        class="button"
+        type="primary"
+        @click="newProgramacao ? createProgramacao() : updateProgramacao()"
         >Salvar</el-button
       >
     </div>
@@ -46,13 +53,27 @@ export default {
     },
     selectedRow: {
       type: Object,
-      default: () => {},
+      default: () => ({
+        form: {
+          code: '',
+          type: '',
+          equipament: '',
+          category: '',
+          schedule: '',
+        },
+      }),
+      required: false,
+    },
+    newProgramacao: {
+      type: Boolean,
+      default: false,
       required: false,
     },
   },
 
   data() {
     return {
+      loading: false,
       form: {
         code: '',
         type: '',
@@ -69,7 +90,9 @@ export default {
 
   methods: {
     openModal() {
-      this.form = structuredClone(this.selectedRow)
+      if (!this.newProgramacao) {
+        this.form = structuredClone(this.selectedRow)
+      }
     },
 
     handleClose() {
@@ -79,6 +102,9 @@ export default {
     },
 
     async updateProgramacao() {
+      this.loading = true
+      console.log(this.loading)
+      debugger
       const newProgramacao = structuredClone(this.form)
       await fetch('/.netlify/functions/patch_programacao', {
         method: 'POST',
@@ -86,7 +112,33 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newProgramacao),
-      }).then((response) => (this.tableData = response))
+      })
+        .then(() => {
+          this.$emit('close')
+        })
+        .finally((this.loading = false))
+    },
+
+    async createProgramacao() {
+      this.loading = true
+      const newProgramacao = structuredClone(this.form)
+      await fetch('/.netlify/functions/post_programacao', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProgramacao),
+      })
+        .then(() => {
+          this.$emit('close')
+        })
+        .then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Criado com sucesso!',
+          })
+        })
+        .finally((this.loading = false))
     },
   },
 }

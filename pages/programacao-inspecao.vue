@@ -76,26 +76,37 @@
       <ProgramacaoTable />
     </el-card>
     <div class="buttons-box">
-      <el-button type="primary" class="button"
+      <el-button
+        type="primary"
+        class="button"
+        @click="showProgramacaoModal = true"
         >Criar Novo</el-button
       >
       <el-button type="primary" class="button">Editar Registro</el-button>
     </div>
+    <ProgramacaoModal
+      new-programacao
+      v-if="showProgramacaoModal"
+      @close="showProgramacaoModal = false"
+    />
   </div>
 </template>
 
 <script>
 import ProgramacaoTable from '~/components/ProgramacaoTable.vue'
+import ProgramacaoModal from '~/components/ProgramacaoModal.vue'
 
 export default {
   components: {
     ProgramacaoTable,
+    ProgramacaoModal,
   },
 
   layout: 'main',
 
   data() {
     return {
+      showProgramacaoModal: false,
       value1: '',
       equipamento: '',
       generos: [
