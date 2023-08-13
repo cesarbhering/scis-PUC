@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-table
+    :loading="loading"
       ref="multipleTable"
       :data="tableData"
       style="width: 100%"
@@ -10,10 +11,10 @@
       <el-table-column label="Código" width="120">
         <template slot-scope="scope">{{ scope.row.code }}</template>
       </el-table-column>
-      <el-table-column property="type" label="Tipo de Inspeção">
+      <el-table-column property="modality" label="Tipo de Inspeção">
       </el-table-column>
       <el-table-column
-        property="equipament"
+        property="equipament.name"
         label="Equipamento"
         show-overflow-tooltip
       >
@@ -57,24 +58,29 @@ export default {
       selectedRow: {},
       multipleSelection: [],
       showModal: false,
+      loading: false
     }
   },
 
-  async beforeCreate() {
-    await fetch('/.netlify/functions/get_programacoes')
-      .then((response) => response.json())
-      .then((res) => {
-        this.tableData = res
-      })
+  async beforeMount() {
+    await this.fetchData()
   },
 
   methods: {
     async fetchData() {
+      this.loading = true
       await fetch('/.netlify/functions/get_programacoes')
         .then((response) => response.json())
         .then((res) => {
+          res.forEach((programacao) => {
+            programacao.schedule = new Date(
+              programacao.schedule
+            ).toLocaleDateString('pt-BR')
+          })
           this.tableData = res
         })
+      this.loading = false
+
     },
 
     handleDelete(info) {
@@ -114,6 +120,7 @@ export default {
     closeModal() {
       this.showModal = false
       this.selectedRow = {}
+      this.fetchData()
     },
   },
 }

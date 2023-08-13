@@ -6,7 +6,7 @@
     class="programacao-modal"
     append-to-body
     title="Programação de Inspeção"
-    width="50%"
+    width="35%"
     top="5vh"
     :before-close="handleClose"
     visible
@@ -14,26 +14,45 @@
     close-on-press-escape
     @open="openModal"
   >
-    <el-form :model="form" :label-position="top">
+    <el-form :model="form" label-position="top">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item v-if="!newProgramacao" label="Código">
-            <el-input v-model="form.code" disabled></el-input>
+            <el-input v-model="form.code" disabled class="mini-input"></el-input>
           </el-form-item>
           <el-form-item label="Equipamento">
-            <el-input v-model="form.equipament"></el-input>
+            <el-select
+              v-model="form.equipament"
+              placeholder="Selecione o Equipamento..."
+              @change="equipamentChange"
+            >
+              <el-option
+                v-for="item in mocks.equipament"
+                :key="item.name"
+                :label="item.name"
+                :value="item"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="Categoria">
-            <el-input v-model="form.category"></el-input>
-          </el-form-item>
-          <el-form-item label="Programação">
-            <el-input v-model="form.schedule"></el-input>
+            <el-input v-model="form.category" disabled class="mini-input"></el-input>
           </el-form-item>
           <el-form-item label="Empresa Inspeção">
-            <el-input v-model="form.contractor"></el-input>
+            <el-select
+              v-model="form.contractor"
+              placeholder="Selecione a Empreiteira..."
+            >
+              <el-option
+                v-for="item in mocks.contractor"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="Inspeção a realizar">
-            <br>
             <el-checkbox-group v-model="form.exams">
               <el-checkbox label="Exame Externo"></el-checkbox>
               <el-checkbox label="Exame Interno"></el-checkbox>
@@ -44,21 +63,40 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="Situação">
-          <!--   <el-select v-model="form.situations" placeholder="">
-              <el-option v-for="(situation, i) in situations" :key="i">{{ situation }}</el-option>
-            </el-select> -->
-            <el-input></el-input>
+            <el-select
+              v-model="form.situation"
+              placeholder="Situação da Programação ..."
+            >
+              <el-option
+                v-for="item in mocks.situation"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="Modalidade">
-          <!--   <el-select v-model="form.modalities" placeholder="">
-              <el-option v-for="(modality, i) in modalities" :key="i">{{ modality }}</el-option>
-            </el-select> -->
-            <el-input></el-input>
-
+            <el-select
+              v-model="form.modality"
+              placeholder="Modalidade da Programação..."
+            >
+              <el-option
+                v-for="item in mocks.modality"
+                :key="item.name"
+                :label="item.name"
+                :value="item.name"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="Data Prevista">
-            <el-input type="date">
-            </el-input>
+            <el-date-picker
+              v-model="form.schedule"
+              type="date"
+              placeholder="Selecione uma data"
+            >
+            </el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,7 +128,7 @@ export default {
         form: {
           code: '',
           type: '',
-          equipament: '',
+          equipament: [],
           contractor: '',
           situations: [],
           modalities: [],
@@ -111,6 +149,24 @@ export default {
   data() {
     return {
       loading: false,
+      mocks: {
+        equipament: [
+          { name: 'Filtro de Circulação 1', category: '1A' },
+          { name: 'Filtro de Circulação 2', category: '3P' },
+          { name: 'Aquecedor de Licor', category: '2C' },
+          { name: 'Trocador de Calor Espiral', category: '4F' },
+        ],
+        contractor: [
+          { name: 'Control Test' },
+          { name: 'Technotest' },
+          { name: 'ISQ do Brasil' },
+        ],
+        situation: [{ name: 'Programada' }, { name: 'Realizada' }],
+        modality: [
+          { name: 'Inspeção Periódica' },
+          { name: 'Inspeção Programada' },
+        ],
+      },
       form: {
         code: '',
         type: '',
@@ -119,7 +175,7 @@ export default {
         schedule: '',
         contractor: '',
         situations: [],
-        modalities: [],
+        modalities: '',
         exams: [],
       },
     }
@@ -134,6 +190,11 @@ export default {
       if (!this.newProgramacao) {
         this.form = structuredClone(this.selectedRow)
       }
+    },
+
+    equipamentChange(equipament) {
+      console.log(equipament)
+      this.form.category = structuredClone(equipament.category)
     },
 
     handleClose() {
@@ -184,6 +245,7 @@ export default {
 </script>
 
 <style scoped>
-
-
+.mini-input {
+    width: 110px;
+  }
 </style>
