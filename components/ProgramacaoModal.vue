@@ -13,22 +13,36 @@
     @open="openModal"
     v-loading="loading"
   >
-    <el-form :model="form" label-width="120px">
-      <el-form-item v-if="!newProgramacao" label="Código">
-        <el-input v-model="form.code" disabled></el-input>
-      </el-form-item>
-      <el-form-item label="Tipo">
-        <el-input v-model="form.type"></el-input>
-      </el-form-item>
-      <el-form-item label="Equipamento">
-        <el-input v-model="form.equipament"></el-input>
-      </el-form-item>
-      <el-form-item label="Categoria">
-        <el-input v-model="form.category"></el-input>
-      </el-form-item>
-      <el-form-item label="Programação">
-        <el-input v-model="form.schedule"></el-input>
-      </el-form-item>
+    <el-form :model="form" :label-position="top">
+      <el-row>
+        <el-col :span="10">
+          <el-form-item v-if="!newProgramacao" label="Código">
+            <el-input v-model="form.code" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="Tipo">
+            <el-input v-model="form.type"></el-input>
+          </el-form-item>
+          <el-form-item label="Equipamento">
+            <el-input v-model="form.equipament"></el-input>
+          </el-form-item>
+          <el-form-item label="Categoria">
+            <el-input v-model="form.category"></el-input>
+          </el-form-item>
+          <el-form-item label="Programação">
+            <el-input v-model="form.schedule"></el-input>
+          </el-form-item>
+          <el-form-item label="Inspeção a realizar">
+            <br>
+            <el-checkbox-group v-model="form.exams">
+              <el-checkbox label="Exame Externo"></el-checkbox>
+              <el-checkbox label="Exame Interno"></el-checkbox>
+              <el-checkbox label="Teste Hidrostático"></el-checkbox>
+              <el-checkbox label="N. D. A."></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+        <el-col></el-col>
+      </el-row>
     </el-form>
     <div slot="footer" class="buttons-box">
       <el-button class="button" type="primary" @click="handleClose"
@@ -60,6 +74,7 @@ export default {
           equipament: '',
           category: '',
           schedule: '',
+          exams: [],
         },
       }),
       required: false,
@@ -80,6 +95,7 @@ export default {
         equipament: '',
         category: '',
         schedule: '',
+        exams: [],
       },
     }
   },
@@ -103,8 +119,6 @@ export default {
 
     async updateProgramacao() {
       this.loading = true
-      console.log(this.loading)
-      debugger
       const newProgramacao = structuredClone(this.form)
       await fetch('/.netlify/functions/patch_programacao', {
         method: 'POST',

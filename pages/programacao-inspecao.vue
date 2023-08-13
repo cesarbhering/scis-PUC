@@ -8,6 +8,7 @@
           </div>
           <div>
             <el-date-picker
+              disabled
               v-model="value1"
               type="datetimerange"
               range-separator="Até"
@@ -19,14 +20,14 @@
         </div>
         <div display="flex">
           <span class="filter-label">Equipamento/TAG</span>
-          <el-input v-model="equipamento" label="Equipamento/TAG"></el-input>
+          <el-input disabled v-model="equipamento" label="Equipamento/TAG" placeholder="Procure pela TAG"></el-input>
         </div>
         <div display="flex">
           <div>
             <span class="filter-label">Gênero</span>
           </div>
           <div>
-            <el-select label="Gênero" v-model="generoPicked" placeholder="">
+            <el-select disabled label="Gênero" v-model="generoPicked" placeholder="Escolha o Gênero...">
               <el-option
                 v-for="genero in generos"
                 :key="genero.value"
@@ -42,9 +43,10 @@
           </div>
           <div>
             <el-select
-              label="Modalidade"
               v-model="modalidadePicked"
-              placeholder=""
+              disabled
+              label="Modalidade"
+              placeholder="Escolha a Modalidade..."
             >
               <el-option
                 v-for="modalidade in modalidades"
@@ -60,7 +62,7 @@
             <span class="filter-label"> Situação </span>
           </div>
           <div>
-            <el-select label="Situação" v-model="situacaoPicked" placeholder="">
+            <el-select disabled label="Situação" v-model="situacaoPicked" placeholder="Escolha a situação...">
               <el-option
                 v-for="situacao in situacoes"
                 :key="situacao.value"
@@ -82,11 +84,11 @@
         @click="showProgramacaoModal = true"
         >Criar Novo</el-button
       >
-      <el-button type="primary" class="button">Editar Registro</el-button>
+<!--       <el-button type="primary" class="button">Editar Registro</el-button> -->
     </div>
     <ProgramacaoModal
-      new-programacao
       v-if="showProgramacaoModal"
+      new-programacao
       @close="showProgramacaoModal = false"
     />
   </div>
@@ -183,7 +185,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .filters-card {
   margin: 5px;
 }
