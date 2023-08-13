@@ -2,25 +2,23 @@
   <el-dialog
     id="programacao-modal"
     ref="dialog"
+    v-loading="loading"
     class="programacao-modal"
     append-to-body
     title="Programação de Inspeção"
     width="50%"
+    top="5vh"
     :before-close="handleClose"
     visible
     :close-on-click-modal="false"
     close-on-press-escape
     @open="openModal"
-    v-loading="loading"
   >
     <el-form :model="form" :label-position="top">
-      <el-row>
-        <el-col :span="10">
+      <el-row :gutter="20">
+        <el-col :span="12">
           <el-form-item v-if="!newProgramacao" label="Código">
             <el-input v-model="form.code" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="Tipo">
-            <el-input v-model="form.type"></el-input>
           </el-form-item>
           <el-form-item label="Equipamento">
             <el-input v-model="form.equipament"></el-input>
@@ -30,6 +28,9 @@
           </el-form-item>
           <el-form-item label="Programação">
             <el-input v-model="form.schedule"></el-input>
+          </el-form-item>
+          <el-form-item label="Empresa Inspeção">
+            <el-input v-model="form.contractor"></el-input>
           </el-form-item>
           <el-form-item label="Inspeção a realizar">
             <br>
@@ -41,7 +42,25 @@
             </el-checkbox-group>
           </el-form-item>
         </el-col>
-        <el-col></el-col>
+        <el-col :span="12">
+          <el-form-item label="Situação">
+          <!--   <el-select v-model="form.situations" placeholder="">
+              <el-option v-for="(situation, i) in situations" :key="i">{{ situation }}</el-option>
+            </el-select> -->
+            <el-input></el-input>
+          </el-form-item>
+          <el-form-item label="Modalidade">
+          <!--   <el-select v-model="form.modalities" placeholder="">
+              <el-option v-for="(modality, i) in modalities" :key="i">{{ modality }}</el-option>
+            </el-select> -->
+            <el-input></el-input>
+
+          </el-form-item>
+          <el-form-item label="Data Prevista">
+            <el-input type="date">
+            </el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div slot="footer" class="buttons-box">
@@ -72,6 +91,9 @@ export default {
           code: '',
           type: '',
           equipament: '',
+          contractor: '',
+          situations: [],
+          modalities: [],
           category: '',
           schedule: '',
           exams: [],
@@ -95,6 +117,9 @@ export default {
         equipament: '',
         category: '',
         schedule: '',
+        contractor: '',
+        situations: [],
+        modalities: [],
         exams: [],
       },
     }
@@ -159,4 +184,6 @@ export default {
 </script>
 
 <style scoped>
+
+
 </style>
