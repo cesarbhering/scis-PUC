@@ -203,7 +203,6 @@ export default {
     equipamentChange(equipament) {
       this.form.category = structuredClone(equipament.category)
       this.form.equipament = structuredClone(equipament.name)
-
     },
 
     handleClose() {
@@ -238,6 +237,7 @@ export default {
         body: JSON.stringify(newProgramacao),
       })
         .then(() => {
+          this.$root.$emit('closedByModal')
           this.$message({
             type: 'success',
             message: 'Criado com sucesso!',
@@ -245,7 +245,9 @@ export default {
         })
         .finally(() => {
           this.$emit('close')
-          this.loading = false
+          this.$nextTick(() => {
+            this.loading = false
+          })
         })
     },
   },

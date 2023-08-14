@@ -20,14 +20,24 @@
         </div>
         <div display="flex">
           <span class="filter-label">Equipamento/TAG</span>
-          <el-input disabled v-model="equipamento" label="Equipamento/TAG" placeholder="Procure pela TAG"></el-input>
+          <el-input
+            disabled
+            v-model="equipamento"
+            label="Equipamento/TAG"
+            placeholder="Procure pela TAG"
+          ></el-input>
         </div>
         <div display="flex">
           <div>
             <span class="filter-label">Gênero</span>
           </div>
           <div>
-            <el-select disabled label="Gênero" v-model="generoPicked" placeholder="Escolha o Gênero...">
+            <el-select
+              disabled
+              label="Gênero"
+              v-model="generoPicked"
+              placeholder="Escolha o Gênero..."
+            >
               <el-option
                 v-for="genero in generos"
                 :key="genero.value"
@@ -62,7 +72,12 @@
             <span class="filter-label"> Situação </span>
           </div>
           <div>
-            <el-select disabled label="Situação" v-model="situacaoPicked" placeholder="Escolha a situação...">
+            <el-select
+              v-model="situacaoPicked"
+              disabled
+              label="Situação"
+              placeholder="Escolha a situação..."
+            >
               <el-option
                 v-for="situacao in situacoes"
                 :key="situacao.value"
@@ -84,7 +99,7 @@
         @click="showProgramacaoModal = true"
         >Criar Novo</el-button
       >
-<!--       <el-button type="primary" class="button">Editar Registro</el-button> -->
+      <!--       <el-button type="primary" class="button">Editar Registro</el-button> -->
     </div>
     <ProgramacaoModal
       v-if="showProgramacaoModal"
@@ -111,74 +126,11 @@ export default {
       showProgramacaoModal: false,
       value1: '',
       equipamento: '',
-      generos: [
-        {
-          value: 'Option1',
-          label: 'Option1',
-        },
-        {
-          value: 'Option2',
-          label: 'Option2',
-        },
-        {
-          value: 'Option3',
-          label: 'Option3',
-        },
-        {
-          value: 'Option4',
-          label: 'Option4',
-        },
-        {
-          value: 'Option5',
-          label: 'Option5',
-        },
-      ],
+      generos: [],
       generoPicked: '',
-      modalidades: [
-        {
-          value: 'Option1',
-          label: 'Option1',
-        },
-        {
-          value: 'Option2',
-          label: 'Option2',
-        },
-        {
-          value: 'Option3',
-          label: 'Option3',
-        },
-        {
-          value: 'Option4',
-          label: 'Option4',
-        },
-        {
-          value: 'Option5',
-          label: 'Option5',
-        },
-      ],
+      modalidades: [],
       modalidadePicked: '',
-      situacoes: [
-        {
-          value: 'Option1',
-          label: 'Option1',
-        },
-        {
-          value: 'Option2',
-          label: 'Option2',
-        },
-        {
-          value: 'Option3',
-          label: 'Option3',
-        },
-        {
-          value: 'Option4',
-          label: 'Option4',
-        },
-        {
-          value: 'Option5',
-          label: 'Option5',
-        },
-      ],
+      situacoes: [],
       situacaoPicked: '',
     }
   },

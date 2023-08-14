@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-    :loading="loading"
+      :loading="loading"
       ref="multipleTable"
       :data="tableData"
       style="width: 100%"
@@ -14,7 +14,7 @@
       <el-table-column property="modality" label="Tipo de Inspeção">
       </el-table-column>
       <el-table-column
-        property="equipament.name"
+        property="equipament"
         label="Equipamento"
         show-overflow-tooltip
       >
@@ -58,12 +58,18 @@ export default {
       selectedRow: {},
       multipleSelection: [],
       showModal: false,
-      loading: false
+      loading: false,
     }
   },
 
   async beforeMount() {
     await this.fetchData()
+  },
+
+  mounted() {
+    this.$root.$on('closedByModal', () => {
+      this.fetchData()
+    })
   },
 
   methods: {
@@ -80,7 +86,6 @@ export default {
           this.tableData = res
         })
       this.loading = false
-
     },
 
     handleDelete(info) {
@@ -118,6 +123,7 @@ export default {
     },
 
     closeModal() {
+
       this.showModal = false
       this.selectedRow = {}
       this.fetchData()
