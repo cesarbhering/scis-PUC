@@ -26,7 +26,7 @@
       >
       </el-table-column>
       <el-table-column
-        property="schedule"
+        property="formattedSchedule"
         label="Data Prevista"
         show-overflow-tooltip
       >
@@ -79,7 +79,7 @@ export default {
         .then((response) => response.json())
         .then((res) => {
           res.forEach((programacao) => {
-            programacao.schedule = new Date(
+            programacao.formattedSchedule = new Date(
               programacao.schedule
             ).toLocaleDateString('pt-BR')
           })
