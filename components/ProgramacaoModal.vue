@@ -18,7 +18,11 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item v-if="!newProgramacao" label="Código">
-            <el-input v-model="form.code" disabled class="mini-input"></el-input>
+            <el-input
+              v-model="form.code"
+              disabled
+              class="mini-input"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Equipamento">
             <el-select
@@ -36,7 +40,11 @@
             </el-select>
           </el-form-item>
           <el-form-item label="Categoria">
-            <el-input v-model="form.category" disabled class="mini-input"></el-input>
+            <el-input
+              v-model="form.category"
+              disabled
+              class="mini-input"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Empresa Inspeção">
             <el-select
@@ -193,8 +201,9 @@ export default {
     },
 
     equipamentChange(equipament) {
-      console.log(equipament)
       this.form.category = structuredClone(equipament.category)
+      this.form.equipament = structuredClone(equipament.name)
+
     },
 
     handleClose() {
@@ -212,11 +221,10 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newProgramacao),
+      }).finally(() => {
+        this.$emit('close')
+        this.loading = false
       })
-        .then(() => {
-          this.$emit('close')
-        })
-        .finally((this.loading = false))
     },
 
     async createProgramacao() {
@@ -230,15 +238,15 @@ export default {
         body: JSON.stringify(newProgramacao),
       })
         .then(() => {
-          this.$emit('close')
-        })
-        .then(() => {
           this.$message({
             type: 'success',
             message: 'Criado com sucesso!',
           })
         })
-        .finally((this.loading = false))
+        .finally(() => {
+          this.$emit('close')
+          this.loading = false
+        })
     },
   },
 }
@@ -246,6 +254,6 @@ export default {
 
 <style scoped>
 .mini-input {
-    width: 110px;
-  }
+  width: 110px;
+}
 </style>
