@@ -19,7 +19,7 @@
             <el-form-item label="">
               <el-input
                 v-model="form.password"
-                pasword
+                type="password"
                 placeholder="Senha"
               ></el-input>
             </el-form-item>
